@@ -37,9 +37,9 @@ class TransactionsListActivity : AppCompatActivity() {
 
     private fun cargarDatos() {
         userId = intent.getIntExtra("user_id", 1)
-        Log.d("TransactionsListActivity", "userId: $userId")
+        println("userId: $userId")
         categoryId = intent.getIntExtra("category_id", 1)
-        Log.d("TransactionsListActivity", "categoryId: $categoryId")
+        println("categoryId: $categoryId")
 
         CoroutineScope(Dispatchers.IO).launch {
             Log.d("TransactionsListActivity", "Entro a CoroutineScope")
@@ -73,7 +73,9 @@ class TransactionsListActivity : AppCompatActivity() {
         btnCrearTransaccion.setOnClickListener {
             val intent = Intent(this, FormTransaccionActivity::class.java)
             intent.putExtra("user_id", userId)
+            println("userId: $userId")
             intent.putExtra("category_id", categoryId)
+            println("categoryId: $categoryId")
             startActivity(intent)
         }
 

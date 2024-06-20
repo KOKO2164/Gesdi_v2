@@ -50,7 +50,7 @@ class AdaptadorTransacciones:RecyclerView.Adapter<AdaptadorTransacciones.MiViewH
             filaFechaTransaccion.text = formatearFecha(transaccion.transaction_date)
             filaMontoTransaccion.text = formatearMonto(transaccion.transaction_amount)
 
-            if (transaccion.transaction_type == "Ingresos") {
+            if (transaccion.type_id == 1) {
                 filaMontoTransaccion.setTextColor(Color.GREEN)
             } else {
                 filaMontoTransaccion.setTextColor(Color.RED)

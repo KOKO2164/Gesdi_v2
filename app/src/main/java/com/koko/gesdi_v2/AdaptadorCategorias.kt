@@ -31,7 +31,7 @@ class AdaptadorCategorias:RecyclerView.Adapter<AdaptadorCategorias.MiViewHolder>
 
         fun setValores(categoria: Categoria) {
             filaNombreCategoria.text = categoria.category_name
-            filaTipoCategoria.text = categoria.category_type
+            filaTipoCategoria.text = categoria.type_name
         }
     }
 

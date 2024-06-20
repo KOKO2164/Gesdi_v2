@@ -77,7 +77,7 @@ class CategoriesListActivity : AppCompatActivity() {
                 val q = v.text.toString()
                 Log.d("CategoriesListActivity", "q: $q")
                 CoroutineScope(Dispatchers.IO).launch {
-                    val rpta = RetrofitClient.webService.buscarCategorias(q)
+                    val rpta = RetrofitClient.webService.buscarCategorias(userId, q)
                     Log.d("CategoriesListActivity", "rpta: $rpta")
                     runOnUiThread {
                         if(rpta.isSuccessful) {

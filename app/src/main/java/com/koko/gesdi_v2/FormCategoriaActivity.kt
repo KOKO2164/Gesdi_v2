@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import com.koko.gesdi_v2.entidad.Categoria
+import com.koko.gesdi_v2.entidad.Tipo
 import com.koko.gesdi_v2.servicio.RetrofitClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -38,10 +39,10 @@ class FormCategoriaActivity : AppCompatActivity() {
         btnRegistrarCategoria = findViewById(R.id.btnRegistrarCategoria)
 
         CoroutineScope(Dispatchers.IO).launch {
-            val rpta = RetrofitClient.webService.getTiposCategoria()
+            val rpta = RetrofitClient.webService.getTipos()
             runOnUiThread {
                 if(rpta.isSuccessful){
-                    val tipos = rpta.body()!!.listaTiposCategoria
+                    val tipos = rpta.body()!!.listaTipos
                     val adapter = ArrayAdapter(this@FormCategoriaActivity, android.R.layout.simple_spinner_item, tipos)
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     spinnerTipo.adapter = adapter
@@ -55,9 +56,11 @@ class FormCategoriaActivity : AppCompatActivity() {
     }
 
     private fun registrar(){
-        val categoria = Categoria(0, "", "", userId)
+        val categoria = Categoria(0, "",  userId, 0, "")
+        val selectedType = spinnerTipo.selectedItem as Tipo
+
         categoria.category_name = inputNombreCategoria.text.toString()
-        categoria.category_type = spinnerTipo.selectedItem.toString()
+        categoria.type_id = selectedType.type_id
 
         CoroutineScope(Dispatchers.IO).launch {
             val rpta = RetrofitClient.webService.addCategoria(categoria)
