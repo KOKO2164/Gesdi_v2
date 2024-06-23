@@ -130,7 +130,6 @@ class FormTransaccionActivity : AppCompatActivity() {
             runOnUiThread {
                 if (rpta.isSuccessful) {
                     mostrarMensaje("Transacción creada exitosamente")
-
                 }
             }
         }

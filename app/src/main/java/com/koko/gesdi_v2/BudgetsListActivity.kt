@@ -4,7 +4,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
@@ -13,85 +12,79 @@ import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.koko.gesdi_v2.servicio.GoalsResponse
+import com.koko.gesdi_v2.entidad.Presupuesto
 import com.koko.gesdi_v2.servicio.RetrofitClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class GoalsListActivity : AppCompatActivity() {
-    private lateinit var rvGoals: RecyclerView
+class BudgetsListActivity : AppCompatActivity() {
+    private lateinit var rvBudgets: RecyclerView
     private lateinit var btnDashboard: ConstraintLayout
-    private lateinit var inputMeta: EditText
-    private lateinit var btnCrearMeta: Button
+    private lateinit var inputPresupuesto: EditText
+    private lateinit var btnCrearPresupuesto: Button
     private var userId: Int = 0
+    private var categoryId: Int = 0
 
-    private var adaptador: AdaptadorMetas = AdaptadorMetas()
+    private var adaptador: AdaptadorPresupuestos = AdaptadorPresupuestos()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_goals_list)
+        setContentView(R.layout.activity_budgets_list)
         asignarReferencias()
         cargarDatos()
     }
 
     private fun cargarDatos() {
         userId = intent.getIntExtra("user_id", 1)
-        Log.d("GoalsListActivity", "userId: $userId")
+        categoryId = intent.getIntExtra("category_id", 1)
 
         CoroutineScope(Dispatchers.IO).launch {
-            val rpta = RetrofitClient.webService.getMetas(userId)
+            val rpta = RetrofitClient.webService.getPresupuestos(userId)
             runOnUiThread {
-                if(rpta.isSuccessful) {
-                    val metas = rpta.body()!!.listaMetas
-                    Log.d("GoalsListActivity", "metas: $metas")
-                    adaptador.setListaMetas(metas ?: ArrayList())
+                if (rpta.isSuccessful) {
+                    val presupuestos = rpta.body()!!.listaPresupuestos
+                    adaptador.setListaPresupuestos(presupuestos ?: ArrayList())
                 } else {
                     mostrarMensaje(rpta.message())
-                    adaptador.setListaMetas(ArrayList())
+                    adaptador.setListaPresupuestos(ArrayList())
                 }
             }
         }
     }
 
     private fun asignarReferencias() {
-        rvGoals = findViewById(R.id.rvGoals)
-        rvGoals.layoutManager = LinearLayoutManager(this)
-        rvGoals.adapter = adaptador
-        btnDashboard = findViewById(R.id.btnDashboard)
-        inputMeta = findViewById(R.id.inputMeta)
-        btnCrearMeta = findViewById(R.id.btnCrearMeta)
+        rvBudgets = findViewById(R.id.rvBudgets)
+        rvBudgets.layoutManager = LinearLayoutManager(this)
+        rvBudgets.adapter = adaptador
+        btnDashboard = findViewById(R.id.btnBudgetToDashboard)
+        btnCrearPresupuesto = findViewById(R.id.btnCrearPresupuesto)
+        inputPresupuesto = findViewById(R.id.inputPresupuesto)
 
         btnDashboard.setOnClickListener {
             finish()
         }
 
-        btnCrearMeta.setOnClickListener {
-            val intent = Intent(this, FormMetaActivity::class.java)
+        btnCrearPresupuesto.setOnClickListener {
+            val intent = Intent(this, FormPresupuestoActivity::class.java)
             intent.putExtra("user_id", userId)
+            intent.putExtra("category_id", categoryId)
             startActivity(intent)
         }
 
-        inputMeta.setOnEditorActionListener { v, actionId, event ->
+        inputPresupuesto.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE ||
-                (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)
-            ) {
+                (event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER)) {
                 val q = v.text.toString()
-                Log.d("GoalsListActivity", "q: $q")
                 CoroutineScope(Dispatchers.IO).launch {
-                    val rpta = RetrofitClient.webService.buscarMetas(userId, q)
-                    Log.d("GoalsListActivity", "rpta: $rpta")
+                    val rpta = RetrofitClient.webService.buscarPresupuestos(userId, q)
                     runOnUiThread {
                         if (rpta.isSuccessful) {
-                            val metas = rpta.body()!!.listaMetas
-                            Log.d("GoalsListActivity", "metas: $metas")
-                            adaptador.setListaMetas(metas ?: ArrayList())
+                            val presupuestos = rpta.body()!!.listaPresupuestos
+                            adaptador.setListaPresupuestos(presupuestos ?: ArrayList())
                         } else {
-                            mostrarMensaje(rpta.message())
-                            adaptador.setListaMetas(ArrayList())
+                            mostrarMensaje(rpta.body()!!.mensaje)
+                            adaptador.setListaPresupuestos(ArrayList())
                         }
                     }
                 }

@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">GESDI_V2</string>
+    <string name="fa_list">\uf03a</string>
+    <string name="fa_transaction">\uf4c0</string>
+    <string name="fa_goal">\uf140</string>
+    <string name="fa_budget">\uf200</string>
+    <string name="fa_report">\uf571</string>
+    <string name="fa_reply">\uf3e5</string>
+    <string name="fa_pdf">\uf1c1</string>
+    <string name="fa_excel">\uf1c3</string>
 </resources>

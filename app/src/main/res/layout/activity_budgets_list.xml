@@ -2,10 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GoalsListActivity">
+    tools:context=".BudgetsListActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -28,19 +27,19 @@
                     android:layout_height="50dp"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
-                    app:cardBackgroundColor="#4D5095"
-                    app:cardCornerRadius="30dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:cardCornerRadius="30dp"
+                    app:cardBackgroundColor="#4D5095" >
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/btnDashboard"
+                        android:id="@+id/btnBudgetToDashboard"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:background="@drawable/background_oval_1">
 
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/textView26"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/fa_reply"
@@ -52,15 +51,14 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:fontFamily="@font/fa_solid_900"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
-
                 </androidx.cardview.widget.CardView>
 
                 <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/textView25"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="32dp"
-                    android:text="Metas"
+                    android:text="Presupuestos"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="30sp"
@@ -74,29 +72,29 @@
                 android:layout_height="match_parent">
 
                 <EditText
-                    android:id="@+id/inputMeta"
+                    android:id="@+id/inputPresupuesto"
                     android:layout_width="180dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
                     android:ems="10"
-                    android:hint="Meta"
+                    android:hint="Presupuesto"
                     android:inputType="text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnCrearMeta"
+                    android:id="@+id/btnCrearPresupuesto"
                     style="@android:style/Widget.Button"
-                    android:layout_width="120dp"
+                    android:layout_width="180dp"
                     android:layout_height="50dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
                     android:background="@drawable/button_background"
-                    android:text="Crear Meta"
+                    android:text="Crear Presupuesto"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/white"
                     android:textSize="16sp"
@@ -106,10 +104,9 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvGoals"
+                android:id="@+id/rvBudgets"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

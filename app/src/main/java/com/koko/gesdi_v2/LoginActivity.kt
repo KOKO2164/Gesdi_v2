@@ -42,6 +42,10 @@ class LoginActivity : AppCompatActivity() {
         btnRegistrar = findViewById(R.id.btnRegistrarLogin)
 
         btnIngresar.setOnClickListener {
+            if (!validarCampos()) {
+                return@setOnClickListener
+            }
+
             val email = inputCorreo.text.toString()
             val password = hashPassword(inputContrasena.text.toString())
 
@@ -56,7 +60,8 @@ class LoginActivity : AppCompatActivity() {
                         intent.putExtra("user_email", usuario?.user_email)
                         startActivity(intent)
                     } else {
-                        mostrarMensaje("Usuario o contraseña incorrectos")
+                        val errorResponse = rpta.errorBody()?.string()
+                        mostrarMensaje(errorResponse ?: "Error desconocido")
                     }
                 }
             }
@@ -66,6 +71,18 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun validarCampos(): Boolean {
+        val email = inputCorreo.text.toString()
+        val password = inputContrasena.text.toString()
+
+        if (email.isEmpty() || password.isEmpty()) {
+            mostrarMensaje("Por favor, rellene todos los campos")
+            return false
+        }
+
+        return true
     }
 
     private fun mostrarMensaje(mensaje:String){

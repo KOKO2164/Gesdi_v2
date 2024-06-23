@@ -3,6 +3,7 @@ package com.koko.gesdi_v2.servicio
 import com.google.gson.GsonBuilder
 import com.koko.gesdi_v2.entidad.Categoria
 import com.koko.gesdi_v2.entidad.Meta
+import com.koko.gesdi_v2.entidad.Presupuesto
 import com.koko.gesdi_v2.entidad.Transaccion
 import com.koko.gesdi_v2.entidad.Usuario
 import com.koko.gesdi_v2.request.LoginRequest
@@ -27,9 +28,6 @@ interface WebService {
     @POST("/login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<Usuario>
 
-    //@GET("/users/{user_id}")
-    //suspend fun getUsuario(@Path("user_id") user_id: Int): Response<Usuario>
-
     @POST("/categories/add")
     suspend fun addCategoria(@Body categoria: Categoria): Response<String>
 
@@ -51,9 +49,6 @@ interface WebService {
     @GET("/transactions-search/{user_id}")
     suspend fun buscarTransacciones(@Path("user_id") user_id: Int, @Query("transaction_description") transaction_description: String): Response<TransactionsResponse>
 
-    //@GET("/category_transactions/{user_id}")
-    //suspend fun getCategoriasTransaccion(@Path("user_id") user_id: Int): Response<CategoryTransactionResponse>
-
     @POST("/goals/add")
     suspend fun addMeta(@Body meta: Meta): Response<String>
 
@@ -63,8 +58,17 @@ interface WebService {
     @GET("/goals-search/{user_id}")
     suspend fun buscarMetas(@Path("user_id") user_id: Int, @Query("goal_name") goal_name: String): Response<GoalsResponse>
 
-    //@GET("/goals/{goal_id}")
-    //suspend fun getmeta(@Path("goal_id") goal_id: Int): Response<Meta>
+    @POST("/budgets/add")
+    suspend fun addPresupuesto(@Body presupuesto: Presupuesto): Response<String>
+
+    @GET("/budgets/{user_id}")
+    suspend fun getPresupuestos(@Path("user_id") user_id: Int): Response<BudgetsResponse>
+
+    @GET("/budgets-search/{user_id}")
+    suspend fun buscarPresupuestos(@Path("user_id") user_id: Int, @Query("budget_name") budget_name: String): Response<BudgetsResponse>
+
+    @GET("/reports/{user_id}")
+    suspend fun getReporte(@Path("user_id") user_id: Int, @Query("month") month: Int, @Query("year") year: Int): Response<ReportResponse>
 }
 
 object RetrofitClient {

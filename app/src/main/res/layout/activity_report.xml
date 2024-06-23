@@ -2,21 +2,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GoalsListActivity">
+    tools:context=".ReportActivity">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_height="match_parent" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -28,88 +25,117 @@
                     android:layout_height="50dp"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
-                    app:cardBackgroundColor="#4D5095"
-                    app:cardCornerRadius="30dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:cardCornerRadius="30dp"
+                    app:cardBackgroundColor="#4D5095">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/btnDashboard"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:id="@+id/btnReportToDashboard"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:background="@drawable/background_oval_1">
 
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/textView38"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/fa_reply"
-                            android:textSize="24sp"
-                            android:textColor="@color/white"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:fontFamily="@font/fa_solid_900"/>
+                            android:text="@string/fa_reply"
+                            app:fontFamily="@font/fa_solid_900"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.cardview.widget.CardView>
 
                 <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/textView39"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="32dp"
-                    android:text="Metas"
-                    android:textAlignment="center"
+                    android:text="Reporte de Transacciones"
                     android:textColor="@color/white"
                     android:textSize="30sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnExcel"
+                    style="@android:style/Widget.Button"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/button_background4"
+                    android:text="@string/fa_excel"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:fontFamily="@font/fa_solid_900"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btnPdf"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnPdf"
+                    style="@android:style/Widget.Button"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/button_background3"
+                    android:text="@string/fa_pdf"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:fontFamily="@font/fa_solid_900"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <EditText
-                    android:id="@+id/inputMeta"
-                    android:layout_width="180dp"
+                    android:id="@+id/inputMesRep"
+                    android:layout_width="90dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
                     android:ems="10"
-                    android:hint="Meta"
-                    android:inputType="text"
+                    android:hint="Mes"
+                    android:inputType="date"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnCrearMeta"
-                    style="@android:style/Widget.Button"
-                    android:layout_width="120dp"
+                <EditText
+                    android:id="@+id/inputAnioRep"
+                    android:layout_width="80dp"
                     android:layout_height="50dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
-                    android:background="@drawable/button_background"
-                    android:text="Crear Meta"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:ems="10"
+                    android:hint="Año"
+                    android:inputType="date"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/inputMesRep"
                     app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvGoals"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
         </LinearLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

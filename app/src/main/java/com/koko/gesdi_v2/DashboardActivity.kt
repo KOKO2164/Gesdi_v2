@@ -15,6 +15,8 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var btnCategories: ConstraintLayout
     private lateinit var btnTransactions: ConstraintLayout
     private lateinit var btnGoals: ConstraintLayout
+    private lateinit var btnBudgets: ConstraintLayout
+    private lateinit var btnReports: ConstraintLayout
     private var userId: Int = 0
     private var userName: String = ""
     private var userEmail: String = ""
@@ -43,6 +45,8 @@ class DashboardActivity : AppCompatActivity() {
         btnCategories = findViewById(R.id.btnCategories)
         btnTransactions = findViewById(R.id.btnTransactions)
         btnGoals = findViewById(R.id.btnGoals)
+        btnBudgets = findViewById(R.id.btnBudgets)
+        btnReports = findViewById(R.id.btnReports)
 
         btnLogout.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
@@ -68,6 +72,22 @@ class DashboardActivity : AppCompatActivity() {
 
         btnGoals.setOnClickListener {
             val intent = Intent(this, GoalsListActivity::class.java)
+            intent.putExtra("user_id", userId)
+            intent.putExtra("user_name", userName)
+            intent.putExtra("user_email", userEmail)
+            startActivity(intent)
+        }
+
+        btnBudgets.setOnClickListener {
+            val intent = Intent(this, BudgetsListActivity::class.java)
+            intent.putExtra("user_id", userId)
+            intent.putExtra("user_name", userName)
+            intent.putExtra("user_email", userEmail)
+            startActivity(intent)
+        }
+
+        btnReports.setOnClickListener {
+            val intent = Intent(this, ReportActivity::class.java)
             intent.putExtra("user_id", userId)
             intent.putExtra("user_name", userName)
             intent.putExtra("user_email", userEmail)

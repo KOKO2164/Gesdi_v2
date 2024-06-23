@@ -56,8 +56,12 @@ class SignupActivity : AppCompatActivity() {
             val password = hashPassword(inputContrasena.text.toString())
             val password_confirmation = hashPassword(inputConfContrasena.text.toString())
 
+            if (!validarCampos()) {
+                return@setOnClickListener
+            }
+
             if (password != password_confirmation) {
-                Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+                mostrarMensaje("Las contraseñas no coinciden")
                 return@setOnClickListener
             }
 
@@ -72,7 +76,8 @@ class SignupActivity : AppCompatActivity() {
                         intent.putExtra("user_email", usuario?.user_email)
                         startActivity(intent)
                     } else {
-                        mostrarMensaje("Error al registrar el usuario")
+                        val errorResponse = rpta.errorBody()?.string()
+                        mostrarMensaje(errorResponse ?: "Error desconocido")
                     }
                 }
             }
@@ -82,6 +87,20 @@ class SignupActivity : AppCompatActivity() {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun validarCampos(): Boolean {
+        val name = inputNombre.text.toString()
+        val email = inputCorreo.text.toString()
+        val password = inputContrasena.text.toString()
+        val password_confirmation = inputConfContrasena.text.toString()
+
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty() || password_confirmation.isEmpty()) {
+            mostrarMensaje("Por favor, rellene todos los campos")
+            return false
+        }
+
+        return true
     }
 
     private fun mostrarMensaje(mensaje:String){
