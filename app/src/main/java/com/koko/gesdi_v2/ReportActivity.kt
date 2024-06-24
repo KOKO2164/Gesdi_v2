@@ -1,9 +1,15 @@
 package com.koko.gesdi_v2
 
+import android.content.ContentValues
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.koko.gesdi_v2.servicio.RetrofitClient
 import kotlinx.coroutines.CoroutineScope
@@ -15,6 +21,8 @@ import kotlin.io.path.outputStream
 import com.itextpdf.text.Document
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
+import java.io.File
+import java.io.FileOutputStream
 
 class ReportActivity : AppCompatActivity() {
     private lateinit var inputMes: EditText
@@ -91,9 +99,24 @@ class ReportActivity : AppCompatActivity() {
                             row.createCell(4).setCellValue(reporte.type_name)
                         }
 
-                        val tempFila = Files.createTempFile("reporte", ".xlsx")
-                        workbook.write(tempFila.outputStream())
+                        val resolver = contentResolver
+                        val contentValues = ContentValues().apply {
+                            put(MediaStore.MediaColumns.DISPLAY_NAME, "Reporte.xlsx")
+                            put(MediaStore.MediaColumns.MIME_TYPE, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                            put(MediaStore.MediaColumns.RELATIVE_PATH, "Documents/")
+                        }
+
+                        val uri: Uri? = resolver.insert(MediaStore.Files.getContentUri("external"), contentValues)
+
+                        uri?.let {
+                            resolver.openOutputStream(it).use { outputStream ->
+                                workbook.write(outputStream)
+                            }
+                        }
+
                         workbook.close()
+
+                        Toast.makeText(this@ReportActivity, "Reporte.xlsx generado", Toast.LENGTH_LONG).show()
                     }
                 }
             }
@@ -107,27 +130,41 @@ class ReportActivity : AppCompatActivity() {
                         val reportes = rpta.body()!!.listaTransacciones
 
                         val document = Document()
-                        val tempFila = Files.createTempFile("reporte", ".pdf")
-                        val writer = PdfWriter.getInstance(document, tempFila.outputStream())
-                        document.open()
-
-                        val table = PdfPTable(5)
-                        table.addCell("Fecha de Transacción")
-                        table.addCell("Monto de Transacción")
-                        table.addCell("Descripción de Transacción")
-                        table.addCell("Categoría de Transacción")
-                        table.addCell("Tipo de Transacción")
-
-                        for (reporte in reportes) {
-                            table.addCell(reporte.transaction_date)
-                            table.addCell(reporte.transaction_amount.toString())
-                            table.addCell(reporte.transaction_description)
-                            table.addCell(reporte.category_name)
-                            table.addCell(reporte.type_name)
+                        val resolver = contentResolver
+                        val contentValues = ContentValues().apply {
+                            put(MediaStore.MediaColumns.DISPLAY_NAME, "Reporte.pdf")
+                            put(MediaStore.MediaColumns.MIME_TYPE, "application/pdf")
+                            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOCUMENTS)
                         }
 
-                        document.add(table)
-                        document.close()
+                        val uri: Uri? = resolver.insert(MediaStore.Files.getContentUri("external"), contentValues)
+
+                        uri?.let {
+                            resolver.openOutputStream(it).use { outputStream ->
+                                val writer = PdfWriter.getInstance(document, outputStream)
+                                document.open()
+
+                                val table = PdfPTable(5)
+                                table.addCell("Fecha de Transacción")
+                                table.addCell("Monto de Transacción")
+                                table.addCell("Descripción de Transacción")
+                                table.addCell("Categoría de Transacción")
+                                table.addCell("Tipo de Transacción")
+
+                                for (reporte in reportes) {
+                                    table.addCell(reporte.transaction_date)
+                                    table.addCell(reporte.transaction_amount.toString())
+                                    table.addCell(reporte.transaction_description)
+                                    table.addCell(reporte.category_name)
+                                    table.addCell(reporte.type_name)
+                                }
+
+                                document.add(table)
+                                document.close()
+                            }
+                        }
+
+                        Toast.makeText(this@ReportActivity, "Reporte.pdf generado", Toast.LENGTH_LONG).show()
                     }
                 }
             }
